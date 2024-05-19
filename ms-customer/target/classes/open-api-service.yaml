@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Customer service
+  description: |-
+    This is a sample 
+  version: 1.0.0
+  
+servers:
+  - url: http://localhost:8070/api/v1
+  
+tags:
+  - name: Customer
+    description: Everything about customers
+    
+paths:
+  /customer:
+    put:
+      tags:
+        - Customer
+      summary: Update an existing customer.
+      description: Update an existing customer by Id.
+      operationId: updateCustomer
+      requestBody:
+        description: Update an existent customer in Data base.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+        '422':
+          description: Validation exception
+    post:
+      tags:
+        - Customer
+      summary: Add a new customer to the Data base.
+      description: Add a new customer to Data base.
+      operationId: addCustomer
+      requestBody:
+        description: Create a new customer in the Data base.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Customer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        userName:
+          type: string
+          example: Luis Olaya Córdova
+        email:
+          type: string
+          example: lolayaco@nttdata.com
+        status:
+          type: string
+          description: Status user in platform
+          example: enabled
+          enum:
+            - enabled
+            - disabled
+            - blocked
+      xml:
+        name: Customer
+    Response:
+      type: object
+      additionalProperties:
+        type: object
+  
+  requestBodies:
+    Customer:
+      description: Customer object.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Customer'
