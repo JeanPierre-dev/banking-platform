@@ -3,6 +3,8 @@ package com.lolaya.customers.documents;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.lolaya.customers.model.CustomerDto.StatusEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,8 @@ import lombok.Setter;
 @Document(collection = "CUSTOMER")
 public class Customer {
 	
-	@Id @Getter @Setter
+	@Id
+	@Getter @Setter
 	private Long id;
 
 	@Getter @Setter
@@ -23,6 +26,6 @@ public class Customer {
 	private String email;
 	
 	@Getter @Setter
-	private String status;
+	private StatusEnum status;
 
 }

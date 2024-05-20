@@ -25,6 +25,7 @@ import com.lolaya.customers.model.CustomerDto;
 import com.lolaya.customers.service.CustomerService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -47,14 +48,12 @@ public class CustomerRest implements CustomerApi {
      */
 	@Override
     public Mono<ResponseEntity<Map<String, Object>>> addCustomer(@Valid Mono<CustomerDto> customerDto, ServerWebExchange exchange) {
-		System.out.println("adsadasd");
-		
 		 Map<String, Object> response = new HashMap<>();
 	        return customerService.save(customerDto.map(customerMapper::toDocument))
 	                .map(customerMapper::toModel)
 	                .map(c -> {
 	                    response.put("customer", c);
-	                    response.put("message", "Cliente guardado con éxito");
+	                    response.put("message", "Customer saved successfully");
 	                    return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	                })
 	                .onErrorResume(WebExchangeBindException.class, ResponseEntityExceptions.getThrowableMonoFunction(response))
@@ -62,15 +61,55 @@ public class CustomerRest implements CustomerApi {
     }
 	
 	/**
-     * {@inheritDoc}
-     */
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Mono<ResponseEntity<CustomerDto>> updateCustomer(@Valid Mono<CustomerDto> userDto,
-			ServerWebExchange exchange){
-        // TODO Auto-generated method stub
-        return CustomerApi.super.updateCustomer(userDto, exchange);
+    public Mono<ResponseEntity<CustomerDto>> getCustomerById(Long id, ServerWebExchange exchange) {
+        return customerService.findById(id)
+                .map(customerMapper::toModel)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+    public Mono<ResponseEntity<Flux<CustomerDto>>> getAllCustomers(ServerWebExchange exchange) {
+		return customerService.findAll()
+				.map(customerMapper::toModel)
+				.collectList()
+				.map(customers -> ResponseEntity.ok().body(Flux.fromIterable(customers)))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+    public Mono<ResponseEntity<Map<String, Object>>> updateCustomer(Long id, Mono<CustomerDto> customer, ServerWebExchange exchange) {
+        Map<String, Object> response = new HashMap<>();
+        return customerService.update(id, customer.map(customerMapper::toDocument))
+                .map(customerMapper::toModel)
+                .map(c -> {
+                    response.put("customer", c);
+                    response.put("message", "Customer updated successfully");
+                    return ResponseEntity.status(HttpStatus.OK).body(response);
+                })
+                .onErrorResume(WebExchangeBindException.class, ResponseEntityExceptions.getThrowableMonoFunction(response))
+                .onErrorResume(DuplicateKeyException.class, ResponseEntityExceptions.getThrowableDuplicate(response))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Mono<ResponseEntity<Void>> deleteCustomer(Long id, ServerWebExchange exchange) {
+		return customerService.findById(id)
+				.flatMap(c -> customerService.delete(c)
+						.then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT))))
+				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 	
 }

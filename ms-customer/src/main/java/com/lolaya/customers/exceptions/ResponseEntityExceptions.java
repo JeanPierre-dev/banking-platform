@@ -20,7 +20,7 @@ public class ResponseEntityExceptions {
 		return t -> Mono.just(t).cast(WebExchangeBindException.class)
 				.flatMap(e -> Mono.just(e.getFieldErrors()))
 				.flatMapMany(Flux::fromIterable)
-				.map(fieldError -> "Campo " + fieldError.getField() + " " + fieldError.getDefaultMessage())
+				.map(fieldError -> "Field " + fieldError.getField() + " " + fieldError.getDefaultMessage())
 				.collectList()
 				.flatMap(l -> {
 					response.put(TIMESTAMP, new Date());

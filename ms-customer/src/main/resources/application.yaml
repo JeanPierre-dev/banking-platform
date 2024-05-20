@@ -1,5 +1,3 @@
-
-    
 server:
   port: 8070
   
@@ -9,6 +7,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/bank
+      auto-index-creation: true
       
 management:
   endpoints:

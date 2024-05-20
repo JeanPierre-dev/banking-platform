@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.lolaya.customers.dao.CustomerDao;
 import com.lolaya.customers.documents.Customer;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -23,6 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
     public Mono<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
+    
+    @Override
+	public Flux<Customer> findAll() {
+    	return customerRepository.findAll();
+	}
 
     @Override
     public Mono<Customer> update(Long id, Mono<Customer> customer) {

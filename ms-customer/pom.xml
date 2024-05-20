@@ -95,14 +95,14 @@
                      <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                      <configOptions>
                                 <reactive>true</reactive>
-                                <delegatePattern>true</delegatePattern>
+<!--                                <delegatePattern>true</delegatePattern>-->
                                 <interfaceOnly>true</interfaceOnly>
                                 <dateLibrary>java8</dateLibrary>
                                 <java8>true</java8>
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <!--suppress UnresolvedMavenProperty -->
                                 <additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
-                                <useTags>true</useTags>
+<!--                                <useTags>true</useTags>-->
                      </configOptions>
                   </configuration>
                </execution>
