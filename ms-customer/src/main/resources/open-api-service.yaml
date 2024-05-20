@@ -177,10 +177,17 @@ components:
         email:
           type: string
           example: lolayaco@nttdata.com
+        customerType:
+          type: string
+          description: Type customer
+          example: personal
+          enum:
+            - personal
+            - business
         status:
           type: string
           description: Status customer in platform
-          example: enabled
+          example: ENABLED
           enum:
             - enabled
             - disabled
