@@ -5,9 +5,10 @@
     <artifactId>banking-platform</artifactId>
     <version>1.0.0</version>
   </parent>
-  <artifactId>ms-customer</artifactId>
+  <artifactId>ms-bank-accounts</artifactId>
+  <name>bank_accounts</name>
   
-    <build>
+  <build>
       <plugins>
          <plugin>
             <groupId>org.springframework.boot</groupId>
@@ -26,8 +27,8 @@
                      <inputSpec>${project.basedir}/src/main/resources/open-api-service.yaml</inputSpec>
                      <generatorName>spring</generatorName>
                      <modelNameSuffix>Dto</modelNameSuffix>
-                     <apiPackage>com.lolaya.customers.api</apiPackage>
-                     <modelPackage>com.lolaya.customers.model</modelPackage>
+                     <apiPackage>com.lolaya.bank_accounts.api</apiPackage>
+                     <modelPackage>com.lolaya.bank_accounts.model</modelPackage>
                      <library>spring-boot</library>
                      <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                      <configOptions>
@@ -47,5 +48,11 @@
          </plugin>
       </plugins>
    </build>
-  
+  <dependencies>
+  	<dependency>
+  		<groupId>com.lolaya</groupId>
+  		<artifactId>ms-customer</artifactId>
+  		<version>1.0.0</version>
+  	</dependency>
+  </dependencies>
 </project>

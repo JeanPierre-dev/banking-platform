@@ -65,7 +65,8 @@ public class CustomerRest implements CustomerApi {
 	 */
 	@Override
     public Mono<ResponseEntity<CustomerDto>> getCustomerById(Long id, ServerWebExchange exchange) {
-        return customerService.findById(id)
+        System.out.println("GET RECIEVED");
+		return customerService.findById(id)
                 .map(customerMapper::toModel)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());

@@ -1,0 +1,17 @@
+server:
+  port: 8060
+  
+spring:
+  application:
+    name: bank-accounts-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/bank
+      auto-index-creation: true
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mappings
+    
